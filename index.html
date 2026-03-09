@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VelkTrace</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for futuristic look -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <!-- MediaPipe Face Mesh and Camera Utils from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- HUD Header -->
+    <header class="hud-header">
+        <h1>VELKTRACE <span style="font-size: 0.5em; opacity: 0.7; margin-left: 10px;">POR EDUARDO KUTZKE</span></h1>
+        <div class="status-indicator">
+            <span class="status-dot"></span>
+            <span class="status-text">SISTEMA EM ESPERA</span>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="hud-container">
+        <!-- Video and Canvas Layering -->
+        <div class="video-wrapper">
+            <!-- Scan lines overlay -->
+            <div class="scan-lines"></div>
+            
+            <video id="input_video" autoplay playsinline></video>
+            <canvas id="output_canvas"></canvas>
+
+            <!-- Decorative HUD Elements -->
+            <div class="hud-corner top-left"></div>
+            <div class="hud-corner top-right"></div>
+            <div class="hud-corner bottom-left"></div>
+            <div class="hud-corner bottom-right"></div>
+            <div class="crosshair"></div>
+        </div>
+
+        <!-- Right Side Panel -->
+        <aside class="side-panel">
+            <!-- Score Bar -->
+            <div class="score-container">
+                <h2>NÍVEL DE FOCO</h2>
+                <div class="score-bar-bg">
+                    <div class="score-bar-fill" id="focus-bar"></div>
+                </div>
+                <div class="score-value" id="focus-score">100%</div>
+            </div>
+
+            <!-- Alert Message -->
+            <div class="alert-box" id="alert-message">
+                MANTENHA O FOCO
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button id="start-btn" class="futuristic-btn">INICIAR RASTREAMENTO</button>
+                <button id="stop-btn" class="futuristic-btn stop">ABORTAR</button>
+            </div>
+            
+            <!-- Log window simulation -->
+            <div class="log-window" id="log-window">
+                <p>> Iniciando sistema...</p>
+            </div>
+        </aside>
+    </main>
+    
+    <!-- Final Score Modal -->
+    <div id="score-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2 class="modal-title">SESSÃO CONCLUÍDA</h2>
+            <div class="scan-lines"></div>
+            
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <span class="stat-label">TEMPO DECORRIDO</span>
+                    <span class="stat-value" id="final-time">00:00</span>
+                </div>
+                <div class="stat-box main-score-box">
+                    <span class="stat-label">FOCO MÉDIO</span>
+                    <span class="stat-value" id="final-avg-score">100%</span>
+                </div>
+            </div>
+
+            <div class="modal-message" id="modal-feedback">
+                Excelente performance. O link neural permaneceu estável.
+            </div>
+
+            <button id="close-modal-btn" class="futuristic-btn">RECONHECER</button>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="focus-alarm" src="https://assets.mixkit.co/active_storage/sfx/995/995-preview.mp3" loop></audio>
+
+    <script src="main.js"></script>
+</body>
+</html>
